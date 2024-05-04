@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('skittles:server');
 var http = require('http');
+var fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
@@ -15,10 +16,16 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+// readFileSync function must use __dirname get current directory
+// require use ./ refer to current directory.
+// const options = {
+//   key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key', 'utf8'),
+//   cert: fs.readFileSync('/etc/ssl/certs/ssl-cert-snakeoil.pem', 'utf8')
+// };
+
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
 
 /**
