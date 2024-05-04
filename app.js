@@ -7,6 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const authenticateToken = require('./authMiddleware');
+
 var app = express();
 
 // view engine setup
@@ -18,6 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.all('/api/*', authenticateToken, (req, res) => {
+  // Access user info from req.user
+  res.json({ username: req.user.username });
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
